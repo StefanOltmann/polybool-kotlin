@@ -1,0 +1,2 @@
+# Git should not touch files
+*.txt binary

@@ -1,0 +1,15 @@
+[versions]
+kotlin = "2.2.10"
+android-gradle = "8.9.3"
+git-versioning = "6.4.4"
+maven-publish = "0.34.0"
+android-compile-sdk = "36"
+android-min-sdk = "21"
+
+[libraries]
+
+[plugins]
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+android-library = { id = "com.android.library", version.ref = "android-gradle" }
+git-versioning = { id = "me.qoomon.git-versioning", version.ref = "git-versioning" }
+maven-publish = { id = "com.vanniktech.maven.publish", version.ref = "maven-publish" }
