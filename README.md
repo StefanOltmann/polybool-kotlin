@@ -28,6 +28,8 @@ more efficient for further processing.
 
 ## Installation
 
+I'ts available on Maven Central.
+
 ```
 implementation("de.stefan-oltmann:polybool-kotlin:0.1.0")
 ```
@@ -58,4 +60,4 @@ please feel free to submit a pull request.
 
 This project is licensed under the same license as polybool-java & polybooljs, which is the MIT license.
 
-See the `LICENSE` file for more information.`
+See the `LICENSE` file for more information.
