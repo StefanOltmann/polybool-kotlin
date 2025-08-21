@@ -72,8 +72,13 @@ kotlin {
     listOf(
         /* App Store */
         iosArm64(),
+        /* Apple Intel iOS Simulator */
+        iosX64(),
         /* Apple Silicon iOS Simulator */
-        iosSimulatorArm64()
+        iosSimulatorArm64(),
+        /* macOS Devices */
+        macosX64(),
+        macosArm64()
     ).forEach {
 
         it.binaries {
