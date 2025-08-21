@@ -28,7 +28,7 @@ more efficient for further processing.
 
 ## Installation
 
-I'ts available on Maven Central.
+It's available on Maven Central.
 
 ```
 implementation("de.stefan-oltmann:polybool-kotlin:0.1.0")
