@@ -110,12 +110,6 @@ class PolyBoolTest {
 
             val transformedPolygon: Polygon = transform(originalPolygon)
 
-            PolyBool.union(
-                epsilon = Epsilon(),
-                firstPolygon = parsePolygon(line),
-                secondPolygon = Polygon()
-            )
-
             val actualOptimizedLine = serializePolygon(transformedPolygon)
 
             val expectedOptimizedLine = expectedTestData[index]
@@ -208,12 +202,6 @@ class PolyBoolTest {
             val originalPolygon = parsePolygon(line)
 
             val transformedPolygon: Polygon = transform(originalPolygon)
-
-            PolyBool.union(
-                epsilon = Epsilon(),
-                firstPolygon = parsePolygon(line),
-                secondPolygon = Polygon()
-            )
 
             lines.add(serializePolygon(transformedPolygon))
         }
