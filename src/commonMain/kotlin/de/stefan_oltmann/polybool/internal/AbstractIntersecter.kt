@@ -22,8 +22,8 @@ internal abstract class AbstractIntersecter internal constructor(
 
     protected class IntersecterContent {
         var isStart: Boolean = false
-        var point: DoubleArray? = null
-        var segment: Segment? = null
+        lateinit var point: DoubleArray
+        lateinit var segment: Segment
         var primary: Boolean = false
         var other: LinkedList<IntersecterContent>? = null
         var status: LinkedList<LinkedList<IntersecterContent>?>? = null
@@ -72,11 +72,11 @@ internal abstract class AbstractIntersecter internal constructor(
             // should ev be inserted before here?
             val comp = this.eventCompare(
                 event.getContent().isStart,
-                event.getContent().point!!,
+                event.getContent().point,
                 otherPt,
                 here.getContent().isStart,
-                here.getContent().point!!,
-                here.getContent().other!!.getContent().point!!
+                here.getContent().point,
+                here.getContent().other!!.getContent().point
             )
 
             comp < 0
@@ -120,7 +120,7 @@ internal abstract class AbstractIntersecter internal constructor(
 
         eventStart.getContent().other = eventEnd
 
-        this.eventAdd(eventEnd, eventStart.getContent().point!!)
+        this.eventAdd(eventEnd, eventStart.getContent().point)
     }
 
     protected fun eventAddSegment(
@@ -145,10 +145,10 @@ internal abstract class AbstractIntersecter internal constructor(
         //   (start)---(end)
 
         ev.getContent().other!!.remove()
-        ev.getContent().segment!!.end = end
+        ev.getContent().segment.end = end
         ev.getContent().other!!.getContent().point = end
 
-        this.eventAdd(ev.getContent().other!!, ev.getContent().point!!)
+        this.eventAdd(ev.getContent().other!!, ev.getContent().point)
     }
 
     private fun eventDivide(
@@ -158,8 +158,8 @@ internal abstract class AbstractIntersecter internal constructor(
 
         val ns = this.segmentCopy(
             start = pt,
-            end = ev.getContent().segment!!.end,
-            segment = ev.getContent().segment!!
+            end = ev.getContent().segment.end,
+            segment = ev.getContent().segment
         )
 
         this.eventUpdateEnd(ev, pt)
@@ -185,10 +185,10 @@ internal abstract class AbstractIntersecter internal constructor(
             ev2: LinkedList<IntersecterContent>
         ): Int {
 
-            val a1 = ev1.getContent().segment!!.start
-            val a2 = ev1.getContent().segment!!.end
-            val b1 = ev2.getContent().segment!!.start
-            val b2 = ev2.getContent().segment!!.end
+            val a1 = ev1.getContent().segment.start
+            val a2 = ev1.getContent().segment.end
+            val b1 = ev2.getContent().segment.start
+            val b2 = ev2.getContent().segment.end
 
             if (this.epsilon.pointsCollinear(a1, b1, b2)) {
 
@@ -217,8 +217,8 @@ internal abstract class AbstractIntersecter internal constructor(
         ): LinkedList<IntersecterContent>? {
 
             // returns the segment equal to ev1, or false if nothing equal
-            val firstSegment = ev1.getContent().segment!!
-            val secondSegment = ev2.getContent().segment!!
+            val firstSegment = ev1.getContent().segment
+            val secondSegment = ev2.getContent().segment
 
             val a1 = firstSegment.start
             val a2 = firstSegment.end
@@ -369,18 +369,18 @@ internal abstract class AbstractIntersecter internal constructor(
 
                         val toggle: Boolean // are we a toggling edge?
 
-                        if (ev.getContent().segment!!.myFill.below == null)
+                        if (ev.getContent().segment.myFill.below == null)
                             toggle = true
                         else
                             toggle =
-                                ev.getContent().segment!!.myFill.above != ev.getContent().segment!!.myFill.below
+                                ev.getContent().segment.myFill.above != ev.getContent().segment.myFill.below
 
                         // merge two segments that belong to the same polygon
                         // think of this as sandwiching two segments together, where `eve.seg` is
                         // the bottom -- this will cause the above fill flag to toggle
                         if (toggle)
-                            eve.getContent().segment!!.myFill.above =
-                                !(eve.getContent().segment!!.myFill.above ?: false)
+                            eve.getContent().segment.myFill.above =
+                                !(eve.getContent().segment.myFill.above ?: false)
 
                     } else {
 
@@ -388,7 +388,7 @@ internal abstract class AbstractIntersecter internal constructor(
                         // each segment has distinct knowledge, so no special logic is needed
                         // note that this can only happen once per segment in this phase, because we
                         // are guaranteed that all self-intersections are gone
-                        eve.getContent().segment!!.otherFill = ev.getContent().segment!!.myFill
+                        eve.getContent().segment.otherFill = ev.getContent().segment.myFill
                     }
 
                     ev.getContent().other!!.remove()
@@ -408,34 +408,34 @@ internal abstract class AbstractIntersecter internal constructor(
 
                     val toggle: Boolean // are we a toggling edge?
 
-                    if (ev.getContent().segment!!.myFill.below == null)  // if we are a new segment...
+                    if (ev.getContent().segment.myFill.below == null)  // if we are a new segment...
                         toggle = true // then we toggle
                     else  // we are a segment that has previous knowledge from a division
                         toggle =
-                            ev.getContent().segment!!.myFill.above != ev.getContent().segment!!.myFill.below // calculate toggle
+                            ev.getContent().segment.myFill.above != ev.getContent().segment.myFill.below // calculate toggle
 
                     // next, calculate whether we are filled below us
                     if (below == null) { // if nothing is below us...
                         // we are filled below us if the polygon is inverted
-                        ev.getContent().segment!!.myFill.below = primaryPolyInverted
+                        ev.getContent().segment.myFill.below = primaryPolyInverted
                     } else {
                         // otherwise, we know the answer -- it's the same if whatever is below
                         // us is filled above it
-                        ev.getContent().segment!!.myFill.below = below.getContent().segment!!.myFill.above
+                        ev.getContent().segment.myFill.below = below.getContent().segment.myFill.above
                     }
 
                     // since now we know if we're filled below us, we can calculate whether
                     // we're filled above us by applying toggle to whatever is below us
                     if (toggle)
-                        ev.getContent().segment!!.myFill.above = !(ev.getContent().segment!!.myFill.below ?: false)
+                        ev.getContent().segment.myFill.above = !(ev.getContent().segment.myFill.below ?: false)
                     else
-                        ev.getContent().segment!!.myFill.above = ev.getContent().segment!!.myFill.below
+                        ev.getContent().segment.myFill.above = ev.getContent().segment.myFill.below
                 } else {
 
                     // now we fill in any missing transition information, since we are all-knowing
                     // at this point
 
-                    if (ev.getContent().segment!!.otherFill == null) {
+                    if (ev.getContent().segment.otherFill == null) {
 
                         // if we don't have other information, then we need to figure out if we're
                         // inside the other polygon
@@ -453,13 +453,13 @@ internal abstract class AbstractIntersecter internal constructor(
 
                             // so copy the below segment's other polygon's above
                             inside = if (ev.getContent().primary == below.getContent().primary)
-                                below.getContent().segment!!.otherFill!!.above ?: false
+                                below.getContent().segment.otherFill!!.above ?: false
                             else
-                                below.getContent().segment!!.myFill.above ?: false
+                                below.getContent().segment.myFill.above ?: false
 
                         }
 
-                        ev.getContent().segment!!.otherFill = SegmentFill(inside, inside)
+                        ev.getContent().segment.otherFill = SegmentFill(inside, inside)
                     }
                 }
 
@@ -490,14 +490,14 @@ internal abstract class AbstractIntersecter internal constructor(
                 if (!ev.getContent().primary) {
 
                     // make sure `seg.myFill` actually points to the primary polygon though
-                    val s = ev.getContent().segment!!.myFill
+                    val s = ev.getContent().segment.myFill
 
-                    ev.getContent().segment!!.myFill = ev.getContent().segment!!.otherFill!!
+                    ev.getContent().segment.myFill = ev.getContent().segment.otherFill!!
 
-                    ev.getContent().segment!!.otherFill = s
+                    ev.getContent().segment.otherFill = s
                 }
 
-                segments.add(ev.getContent().segment!!)
+                segments.add(ev.getContent().segment)
             }
 
             // remove the event and continue
