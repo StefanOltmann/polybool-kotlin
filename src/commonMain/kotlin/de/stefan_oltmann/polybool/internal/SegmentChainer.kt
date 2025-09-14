@@ -20,8 +20,8 @@ internal object SegmentChainer {
         epsilon: Epsilon
     ): List<List<DoubleArray>> {
 
-        val chains = mutableListOf<MutableList<DoubleArray>>()
-        val regions = mutableListOf<MutableList<DoubleArray>>()
+        val chains = ArrayList<MutableList<DoubleArray>>(segments.size)
+        val regions = ArrayList<MutableList<DoubleArray>>(segments.size)
 
         for (segment in segments) {
 
@@ -86,7 +86,9 @@ internal object SegmentChainer {
 
             if (nextMatch === firstMatch) {
 
-                val newChain = mutableListOf(firstPoint, secondPoint)
+                val newChain = ArrayList<DoubleArray>(2)
+                newChain.add(firstPoint)
+                newChain.add(secondPoint)
 
                 /* We didn't match anything, so create a new chain */
                 chains.add(newChain)

@@ -70,7 +70,7 @@ internal object SegmentSelector {
         selection: IntArray
     ): List<Segment> {
 
-        val result: MutableList<Segment> = ArrayList<Segment>()
+        val result: MutableList<Segment> = ArrayList<Segment>(segments.size)
 
         for (segment in segments) {
 

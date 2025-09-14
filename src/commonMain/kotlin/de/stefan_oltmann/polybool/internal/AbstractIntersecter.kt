@@ -317,7 +317,8 @@ internal abstract class AbstractIntersecter internal constructor(
         //
         // main event loop
         //
-        val segments: MutableList<Segment> = ArrayList()
+        val segments: MutableList<Segment> =
+            ArrayList(1000) // pre-sized ArrayList to avoid internal resizing operations
 
         while (!this.eventRoot.isEmpty()) {
 
