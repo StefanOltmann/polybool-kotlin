@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2016 Sean Connelly (@velipso)
  * Copyright (c) 2021 Davide Menegatti (@menecats)
  * Copyright (c) 2025 Stefan Oltmann (@StefanOltmann)
  *

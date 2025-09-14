@@ -1,6 +1,6 @@
 [versions]
-kotlin = "2.2.10"
-android-gradle = "8.9.3"
+kotlin = "2.2.20"
+android-gradle = "8.11.2"
 git-versioning = "6.4.4"
 maven-publish = "0.34.0"
 android-compile-sdk = "36"

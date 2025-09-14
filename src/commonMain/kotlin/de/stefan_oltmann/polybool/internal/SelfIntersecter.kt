@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2016 Sean Connelly (@velipso)
  * Copyright (c) 2021 Davide Menegatti (@menecats)
  * Copyright (c) 2025 Stefan Oltmann (@StefanOltmann)
  *
@@ -40,7 +41,7 @@ internal class SelfIntersecter(epsilon: Epsilon) : AbstractIntersecter(
             this.eventAddSegment(
                 Segment(
                     start = if (forward < 0) firstPoint else secondPoint,
-                    end= if (forward < 0) secondPoint else firstPoint
+                    end = if (forward < 0) secondPoint else firstPoint
                 ),
                 primary = true
             )
