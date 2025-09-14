@@ -52,8 +52,7 @@ internal class LinkedList<T> private constructor(
                 node.prev = here.prev
                 node.next = here
 
-                if (here.prev != null)
-                    here.prev!!.next = node
+                here.prev?.next = node
 
                 here.prev = node
 
@@ -109,11 +108,8 @@ internal class LinkedList<T> private constructor(
         if (this.root)
             return
 
-        if (this.prev != null)
-            this.prev!!.next = this.next
-
-        if (this.next != null)
-            this.next!!.prev = this.prev
+        this.prev?.next = this.next
+        this.next?.prev = this.prev
 
         this.prev = null
         this.next = null
