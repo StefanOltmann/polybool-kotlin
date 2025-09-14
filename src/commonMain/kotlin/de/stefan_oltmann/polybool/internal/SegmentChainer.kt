@@ -15,12 +15,6 @@ import de.stefan_oltmann.polybool.models.Segment
 
 internal object SegmentChainer {
 
-    private data class SegmentChainerMatch(
-        var index: Int = 0,
-        var matchesHead: Boolean = false,
-        var matchesPt1: Boolean = false
-    )
-
     fun chain(
         segments: List<Segment>,
         epsilon: Epsilon
@@ -31,10 +25,10 @@ internal object SegmentChainer {
 
         for (segment in segments) {
 
-            val pt1 = segment.start
-            val pt2 = segment.end
+            val firstPoint = segment.start
+            val secondPoint = segment.end
 
-            if (epsilon.pointsSame(pt1, pt2))
+            if (epsilon.pointsSame(firstPoint, secondPoint))
                 error("PolyBool: Warning: Zero-length segment detected; your epsilon is probably too small or too large")
 
             val firstMatch = SegmentChainerMatch()
@@ -45,22 +39,23 @@ internal object SegmentChainer {
             fun setMatch(
                 index: Int,
                 matchesHead: Boolean,
-                matchesPt1: Boolean
+                matchesFirstPoint: Boolean
             ): Boolean {
 
                 // return true if we've matched twice
-                val nm = nextMatch ?: return true
+                val nonNullNextMatch = nextMatch ?: return true
 
-                nm.index = index
-                nm.matchesHead = matchesHead
-                nm.matchesPt1 = matchesPt1
+                nonNullNextMatch.index = index
+                nonNullNextMatch.matchesHead = matchesHead
+                nonNullNextMatch.matchesFirstPoint = matchesFirstPoint
 
-                nextMatch = if (nm === firstMatch)
+                nextMatch = if (nonNullNextMatch === firstMatch)
                     secondMatch
                 else
                     null
 
-                return nextMatch == null // we've matched twice, we're done here
+                /* If we've matched twice, we're done here */
+                return nextMatch == null
             }
 
             for (index in 0 until chains.size) {
@@ -71,19 +66,19 @@ internal object SegmentChainer {
 
                 when {
 
-                    epsilon.pointsSame(head, pt1) ->
+                    epsilon.pointsSame(head, firstPoint) ->
                         if (setMatch(index, true, true))
                             break
 
-                    epsilon.pointsSame(head, pt2) ->
+                    epsilon.pointsSame(head, secondPoint) ->
                         if (setMatch(index, true, false))
                             break
 
-                    epsilon.pointsSame(tail, pt1) ->
+                    epsilon.pointsSame(tail, firstPoint) ->
                         if (setMatch(index, false, true))
                             break
 
-                    epsilon.pointsSame(tail, pt2) ->
+                    epsilon.pointsSame(tail, secondPoint) ->
                         if (setMatch(index, false, false))
                             break
                 }
@@ -91,9 +86,9 @@ internal object SegmentChainer {
 
             if (nextMatch === firstMatch) {
 
-                val newChain = mutableListOf(pt1, pt2)
+                val newChain = mutableListOf(firstPoint, secondPoint)
 
-                // we didn't match anything, so create a new chain
+                /* We didn't match anything, so create a new chain */
                 chains.add(newChain)
 
                 continue
@@ -105,7 +100,8 @@ internal object SegmentChainer {
                 // add the other point to the appropriate end, and check to see if we've closed the chain into a loop
 
                 val index = firstMatch.index
-                val pt = if (firstMatch.matchesPt1) pt2 else pt1 // if we matched pt1, then we add pt2, etc
+                val pt =
+                    if (firstMatch.matchesFirstPoint) secondPoint else firstPoint // if we matched pt1, then we add pt2, etc
                 val addToHead = firstMatch.matchesHead // if we matched at head, then add to the head
 
                 val chain = chains[index]
