@@ -16,15 +16,6 @@ public data class Epsilon(
     private val eps: Double = DEFAULT_EPS
 ) {
 
-    internal class EpsilonIntersectionResult {
-
-        var alongA: Int = 0
-
-        var alongB: Int = 0
-
-        var points: DoubleArray? = null
-    }
-
     internal fun pointAboveOrOnLine(
         point: DoubleArray,
         left: DoubleArray,
@@ -152,8 +143,9 @@ public data class Epsilon(
 
         val axb = adx * bdy - ady * bdx
 
+        /* Return null when lines are coincident */
         if (abs(axb) < this.eps)
-            return null /* lines are coincident */
+            return null
 
         val dx = a0[0] - b0[0]
         val dy = a0[1] - b0[1]
@@ -161,29 +153,31 @@ public data class Epsilon(
         val a = (bdx * dy - bdy * dx) / axb
         val b = (adx * dy - ady * dx) / axb
 
-        val intersectionResult = EpsilonIntersectionResult()
-
-        intersectionResult.points = doubleArrayOf(a0[0] + a * adx, a0[1] + a * ady)
+        val points = doubleArrayOf(a0[0] + a * adx, a0[1] + a * ady)
 
         /* Categorize where the intersection point is along A and B */
 
-        when {
-            a <= -this.eps -> intersectionResult.alongA = -2
-            a < this.eps -> intersectionResult.alongA = -1
-            a - 1 <= -this.eps -> intersectionResult.alongA = 0
-            a - 1 < this.eps -> intersectionResult.alongA = 1
-            else -> intersectionResult.alongA = 2
+        val alongA = when {
+            a <= -this.eps -> -2
+            a < this.eps -> -1
+            a - 1 <= -this.eps -> 0
+            a - 1 < this.eps ->1
+            else -> 2
         }
 
-        when {
-            b <= -this.eps -> intersectionResult.alongB = -2
-            b < this.eps -> intersectionResult.alongB = -1
-            b - 1 <= -this.eps -> intersectionResult.alongB = 0
-            b - 1 < this.eps -> intersectionResult.alongB = 1
-            else -> intersectionResult.alongB = 2
+        val alongB = when {
+            b <= -this.eps -> -2
+            b < this.eps -> -1
+            b - 1 <= -this.eps -> 0
+            b - 1 < this.eps -> 1
+            else -> 2
         }
 
-        return intersectionResult
+        return EpsilonIntersectionResult(
+            alongA = alongA,
+            alongB = alongB,
+            points = points
+        )
     }
 
     public companion object {
