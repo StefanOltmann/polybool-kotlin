@@ -12,8 +12,8 @@ package de.stefan_oltmann.polybool
 
 import kotlin.math.abs
 
-public class Epsilon(
-    private val eps: Double = 1e-10
+public data class Epsilon(
+    private val eps: Double = DEFAULT_EPS
 ) {
 
     internal class EpsilonIntersectionResult {
@@ -61,9 +61,9 @@ public class Epsilon(
         if (dot < this.eps)
             return false
 
-        val sqlen = dRxLx * dRxLx + dRyLy * dRyLy
+        val length = dRxLx * dRxLx + dRyLy * dRyLy
 
-        return !(dot - sqlen > -this.eps)
+        return dot - length <= -this.eps
     }
 
     internal fun pointsSameX(
@@ -184,5 +184,12 @@ public class Epsilon(
         }
 
         return intersectionResult
+    }
+
+    public companion object {
+
+        public const val DEFAULT_EPS: Double = 1e-10
+
+        public val default: Epsilon = Epsilon(DEFAULT_EPS)
     }
 }

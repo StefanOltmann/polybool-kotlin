@@ -26,7 +26,7 @@ class PolyBoolTest {
             transform = { originalPolygon ->
 
                 PolyBool.union(
-                    Epsilon(),
+                    Epsilon.default,
                     originalPolygon,
                     Polygon()
                 )
@@ -43,7 +43,7 @@ class PolyBoolTest {
             transform = { originalPolygon ->
 
                 PolyBool.intersect(
-                    Epsilon(),
+                    Epsilon.default,
                     originalPolygon,
                     Polygon()
                 )
@@ -57,7 +57,7 @@ class PolyBoolTest {
             transform = { originalPolygon ->
 
                 PolyBool.difference(
-                    Epsilon(),
+                    Epsilon.default,
                     originalPolygon,
                     Polygon()
                 )
@@ -74,7 +74,7 @@ class PolyBoolTest {
             transform = { originalPolygon ->
 
                 PolyBool.differenceRev(
-                    Epsilon(),
+                    Epsilon.default,
                     originalPolygon,
                     Polygon()
                 )
@@ -88,7 +88,7 @@ class PolyBoolTest {
             transform = { originalPolygon ->
 
                 PolyBool.xor(
-                    Epsilon(),
+                    Epsilon.default,
                     originalPolygon,
                     Polygon()
                 )
@@ -136,7 +136,7 @@ class PolyBoolTest {
             transform = { originalPolygon ->
 
                 PolyBool.union(
-                    Epsilon(),
+                    Epsilon.default,
                     originalPolygon,
                     Polygon()
                 )
@@ -148,7 +148,7 @@ class PolyBoolTest {
             transform = { originalPolygon ->
 
                 PolyBool.intersect(
-                    Epsilon(),
+                    Epsilon.default,
                     originalPolygon,
                     Polygon()
                 )
@@ -160,7 +160,7 @@ class PolyBoolTest {
             transform = { originalPolygon ->
 
                 PolyBool.difference(
-                    Epsilon(),
+                    Epsilon.default,
                     originalPolygon,
                     Polygon()
                 )
@@ -172,7 +172,7 @@ class PolyBoolTest {
             transform = { originalPolygon ->
 
                 PolyBool.differenceRev(
-                    Epsilon(),
+                    Epsilon.default,
                     originalPolygon,
                     Polygon()
                 )
@@ -184,7 +184,7 @@ class PolyBoolTest {
             transform = { originalPolygon ->
 
                 PolyBool.xor(
-                    Epsilon(),
+                    Epsilon.default,
                     originalPolygon,
                     Polygon()
                 )
