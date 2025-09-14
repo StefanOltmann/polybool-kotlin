@@ -12,6 +12,7 @@ import de.stefan_oltmann.polybool.Epsilon
 import de.stefan_oltmann.polybool.PolyBool
 import de.stefan_oltmann.polybool.models.Polygon
 import java.io.File
+import kotlin.system.measureTimeMillis
 import kotlin.test.Ignore
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -104,22 +105,27 @@ class PolyBoolTest {
         assertEquals(10000, originalTestData.size)
         assertEquals(10000, expectedTestData.size)
 
-        for ((index, line) in originalTestData.withIndex()) {
+        val time = measureTimeMillis {
 
-            val originalPolygon = parsePolygon(line)
+            for ((index, line) in originalTestData.withIndex()) {
 
-            val transformedPolygon: Polygon = transform(originalPolygon)
+                val originalPolygon = parsePolygon(line)
 
-            val actualOptimizedLine = serializePolygon(transformedPolygon)
+                val transformedPolygon: Polygon = transform(originalPolygon)
 
-            val expectedOptimizedLine = expectedTestData[index]
+                val actualOptimizedLine = serializePolygon(transformedPolygon)
 
-            assertEquals(
-                expected = expectedOptimizedLine,
-                actual = actualOptimizedLine,
-                message = "Line $index does not match."
-            )
+                val expectedOptimizedLine = expectedTestData[index]
+
+                assertEquals(
+                    expected = expectedOptimizedLine,
+                    actual = actualOptimizedLine,
+                    message = "Line $index does not match."
+                )
+            }
         }
+
+        println("Test completed in $time ms.")
     }
 
     @Ignore("Only used to create new test data.")
