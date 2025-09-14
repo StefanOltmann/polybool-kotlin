@@ -20,15 +20,6 @@ internal abstract class AbstractIntersecter internal constructor(
     protected val epsilon: Epsilon
 ) {
 
-    protected class IntersecterContent {
-        var isStart: Boolean = false
-        lateinit var point: DoubleArray
-        lateinit var segment: Segment
-        var primary: Boolean = false
-        var other: LinkedList<IntersecterContent>? = null
-        var status: LinkedList<LinkedList<IntersecterContent>?>? = null
-    }
-
     private val eventRoot: LinkedList<IntersecterContent> = LinkedList.create<IntersecterContent>()
 
     protected fun segmentCopy(start: DoubleArray, end: DoubleArray, segment: Segment): Segment =
