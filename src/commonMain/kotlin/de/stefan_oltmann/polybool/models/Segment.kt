@@ -11,9 +11,9 @@
 package de.stefan_oltmann.polybool.models
 
 internal class Segment(
-    var start: DoubleArray?,
-    var end: DoubleArray?,
-    var myFill: SegmentFill? = SegmentFill(null, null)
+    var start: DoubleArray,
+    var end: DoubleArray,
+    var myFill: SegmentFill = SegmentFill()
 ) {
 
     var otherFill: SegmentFill? = null

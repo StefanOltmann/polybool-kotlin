@@ -20,11 +20,12 @@ internal object SegmentSelector {
         val result: MutableList<Segment> = ArrayList<Segment>()
 
         for (seg in segments) {
+            val otherFill = seg.otherFill
             val index =
-                (if (seg.myFill!!.above == true) 8 else 0) +
-                    (if (seg.myFill!!.below == true) 4 else 0) +
-                    (if (seg.otherFill != null && seg.otherFill!!.above == true) 2 else 0) +
-                    (if (seg.otherFill != null && seg.otherFill!!.below == true) 1 else 0)
+                (if (seg.myFill.above == true) 8 else 0) +
+                    (if (seg.myFill.below == true) 4 else 0) +
+                    (if (otherFill != null && otherFill.above == true) 2 else 0) +
+                    (if (otherFill != null && otherFill.below == true) 1 else 0)
 
             if (selection[index] != 0) {
                 /* copy the segment to the results, while also calculating the fill status */

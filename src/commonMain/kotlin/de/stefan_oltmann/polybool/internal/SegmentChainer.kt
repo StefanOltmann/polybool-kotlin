@@ -31,8 +31,8 @@ internal object SegmentChainer {
 
         for (segment in segments) {
 
-            val pt1 = segment.start!!
-            val pt2 = segment.end!!
+            val pt1 = segment.start
+            val pt2 = segment.end
 
             if (epsilon.pointsSame(pt1, pt2))
                 error("PolyBool: Warning: Zero-length segment detected; your epsilon is probably too small or too large")
