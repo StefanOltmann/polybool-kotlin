@@ -13,7 +13,7 @@ package de.stefan_oltmann.polybool
 import kotlin.math.abs
 
 public data class Epsilon(
-    private val eps: Double = DEFAULT_EPS
+    public val eps: Double = DEFAULT_EPS
 ) {
 
     internal fun pointAboveOrOnLine(
@@ -29,7 +29,7 @@ public data class Epsilon(
         val cx = point[0]
         val cy = point[1]
 
-        return (bx - ax) * (cy - ay) - (by - ay) * (cx - ax) >= -this.eps
+        return (bx - ax) * (cy - ay) - (by - ay) * (cx - ax) >= -eps
     }
 
     internal fun pointBetween(
@@ -49,31 +49,31 @@ public data class Epsilon(
 
         val dot = dPxLx * dRxLx + dPyLy * dRyLy
 
-        if (dot < this.eps)
+        if (dot < eps)
             return false
 
         val length = dRxLx * dRxLx + dRyLy * dRyLy
 
-        return dot - length <= -this.eps
+        return dot - length <= -eps
     }
 
-    internal fun pointsSameX(
+    private fun pointsSameX(
         firstPoint: DoubleArray,
         secondPoint: DoubleArray
     ): Boolean =
-        abs(firstPoint[0] - secondPoint[0]) < this.eps
+        abs(firstPoint[0] - secondPoint[0]) < eps
 
-    internal fun pointsSameY(
+    private fun pointsSameY(
         firstPoint: DoubleArray,
         secondPoint: DoubleArray
     ): Boolean =
-        abs(firstPoint[1] - secondPoint[1]) < this.eps
+        abs(firstPoint[1] - secondPoint[1]) < eps
 
     internal fun pointsSame(
         firstPoint: DoubleArray,
         secondPoint: DoubleArray
     ): Boolean =
-        this.pointsSameX(firstPoint, secondPoint) && this.pointsSameY(firstPoint, secondPoint)
+        pointsSameX(firstPoint, secondPoint) && pointsSameY(firstPoint, secondPoint)
 
     internal fun pointsCompare(
         firstPoint: DoubleArray,
@@ -81,8 +81,8 @@ public data class Epsilon(
     ): Int {
 
         /* returns -1 if p1 is smaller, 1 if p2 is smaller, 0 if equal */
-        if (this.pointsSameX(firstPoint, secondPoint))
-            return if (this.pointsSameY(firstPoint, secondPoint))
+        if (pointsSameX(firstPoint, secondPoint))
+            return if (pointsSameY(firstPoint, secondPoint))
                 0
             else
                 (if (firstPoint[1] < secondPoint[1]) -1 else 1)
@@ -106,7 +106,7 @@ public data class Epsilon(
         val dx2 = pt2[0] - pt3[0]
         val dy2 = pt2[1] - pt3[1]
 
-        return abs(dx1 * dy2 - dx2 * dy1) < this.eps
+        return abs(dx1 * dy2 - dx2 * dy1) < eps
     }
 
     internal fun linesIntersect(
@@ -144,7 +144,7 @@ public data class Epsilon(
         val axb = adx * bdy - ady * bdx
 
         /* Return null when lines are coincident */
-        if (abs(axb) < this.eps)
+        if (abs(axb) < eps)
             return null
 
         val dx = a0[0] - b0[0]
@@ -153,36 +153,28 @@ public data class Epsilon(
         val a = (bdx * dy - bdy * dx) / axb
         val b = (adx * dy - ady * dx) / axb
 
-        val points = doubleArrayOf(a0[0] + a * adx, a0[1] + a * ady)
-
-        /* Categorize where the intersection point is along A and B */
-
-        val alongA = when {
-            a <= -this.eps -> -2
-            a < this.eps -> -1
-            a - 1 <= -this.eps -> 0
-            a - 1 < this.eps ->1
-            else -> 2
-        }
-
-        val alongB = when {
-            b <= -this.eps -> -2
-            b < this.eps -> -1
-            b - 1 <= -this.eps -> 0
-            b - 1 < this.eps -> 1
-            else -> 2
-        }
-
         return EpsilonIntersectionResult(
-            alongA = alongA,
-            alongB = alongB,
-            points = points
+            alongA = when {
+                a <= -eps -> -2
+                a < eps -> -1
+                a - 1 <= -eps -> 0
+                a - 1 < eps -> 1
+                else -> 2
+            },
+            alongB = when {
+                b <= -eps -> -2
+                b < eps -> -1
+                b - 1 <= -eps -> 0
+                b - 1 < eps -> 1
+                else -> 2
+            },
+            points = doubleArrayOf(a0[0] + a * adx, a0[1] + a * ady)
         )
     }
 
     public companion object {
 
-        public const val DEFAULT_EPS: Double = 1e-10
+        private const val DEFAULT_EPS: Double = 1e-10
 
         public val default: Epsilon = Epsilon(DEFAULT_EPS)
     }
