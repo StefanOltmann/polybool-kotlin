@@ -1,6 +1,6 @@
 # polybool-kotlin
 
-[![Kotlin](https://img.shields.io/badge/kotlin-2.2.20-blue.svg?logo=kotlin)](httpw://kotlinlang.org)
+![Kotlin](https://img.shields.io/badge/kotlin-2.2.20-blue.svg?logo=kotlin)
 ![JVM](https://img.shields.io/badge/-JVM-gray.svg?style=flat)
 ![Android](https://img.shields.io/badge/-Android-gray.svg?style=flat)
 ![iOS](https://img.shields.io/badge/-iOS-gray.svg?style=flat)
@@ -9,6 +9,7 @@
 ![macOS](https://img.shields.io/badge/-macOS-gray.svg?style=flat)
 ![JS](https://img.shields.io/badge/-JS-gray.svg?style=flat)
 ![WASM](https://img.shields.io/badge/-WASM-gray.svg?style=flat)
+[![GitHub Sponsors](https://img.shields.io/badge/Sponsor-gray?&logo=GitHub-Sponsors&logoColor=EA4AAA)](https://github.com/sponsors/StefanOltmann)
 
 This is a Kotlin Multiplatform port of
 [polybool-java](https://github.com/Menecats/polybool-java) / [polybooljs](https://github.com/velipso/polybooljs).
